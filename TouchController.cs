@@ -25,28 +25,30 @@ public class TouchController : MonoBehaviour
     {
         m_tap = m_swipeLeft = m_swipeRight = m_swipeUp = m_swipeDown = false;
 
+        #region 
+        // PC Controls Test Code, uncoomment if you wish to Test with a mouse instead of Unity Remote 5
 
-        switch (Input.GetMouseButtonDown(0))
-        {
-            case true:
-                m_isDragging = true;
-                m_tap = true;
-                m_startTouch = Input.mousePosition;
-                break;
-            case false:
-                break;
-        }
+        //switch (Input.GetMouseButtonDown(0))
+        //{
+        //    case true:
+        //        m_isDragging = true;
+        //        m_tap = true;
+        //        m_startTouch = Input.mousePosition;
+        //        break;
+        //    case false:
+        //        break;
+        //}
 
-        switch (Input.GetMouseButtonUp(0))
-        {
-            case true:
-                m_isDragging = false;
-                Reset();
-                break;
-            case false:
-                break;
-        }
-
+        //switch (Input.GetMouseButtonUp(0))
+        //{
+        //    case true:
+        //        m_isDragging = false;
+        //        Reset();
+        //        break;
+        //    case false:
+        //        break;
+        //}
+        #endregion
 
 
         switch (Input.touches.Length > 0)
@@ -170,23 +172,12 @@ public class TouchController : MonoBehaviour
         {
             case true:
                 m_desiredPosition += Vector3.down;
-                Debug.Log("SWD");
                 break;
             case false:
                 break;
         }
 
         m_player.transform.position = Vector3.MoveTowards(m_player.transform.position, m_desiredPosition, m_moveSpeed * Time.deltaTime);
-
-        switch (m_tap)
-        {
-            case true:
-                Debug.Log("Tap");
-                //Reset();
-                break;
-            case false:
-                break;
-        }
     }
 
     private void Reset()
