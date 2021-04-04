@@ -6,7 +6,7 @@ public class AISeparator : MonoBehaviour
 {
     private GameObject[] AI;
 
-    [SerializeField] private float m_spaceBetween = 1.5f;
+    public float m_spaceBetween = 1.5f;
 
     // Start is called before the first frame update
     void Start()
