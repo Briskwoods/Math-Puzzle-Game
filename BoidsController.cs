@@ -9,9 +9,11 @@ public class BoidsController : MonoBehaviour
 
     [SerializeField] private Transform m_leader;
 
-    [SerializeField] private float m_spaceBetween =  1.5f;
+    public float m_spaceBetween =  1.5f;
 
     public bool m_ShouldFollow;
+
+    private bool destroy = false;
     
     private void Update()
     {
@@ -36,4 +38,26 @@ public class BoidsController : MonoBehaviour
         }
     }
 
+    public void Merge()
+    {
+        StartCoroutine(Delay());
+        m_spaceBetween = 0;
+        m_leader.transform.localScale *= 1.5f;
+        switch (destroy)
+        {
+            case true:
+                Destroy(gameObject);
+                break;
+            case false:
+                break;
+        }
+        StopCoroutine(Delay());
+    }
+
+    public IEnumerator Delay()
+    {
+        destroy = true;
+        yield return new WaitForSeconds(3f);
+        destroy = true;
+    }
 }
