@@ -8,14 +8,28 @@ public class TouchController : MonoBehaviour
 
     [SerializeField] private float m_moveSpeed = 3f;
 
-    [SerializeField] private float m_moveDistanceMultiplier = 3f;
 
     [SerializeField] private Animator m_playerAnimator;
 
     [SerializeField] private Rigidbody m_rigidbody;
+    
+    public float m_moveDistanceMultiplier = 3f;
         
-    public Vector3 m_desiredPosition;
-    public Vector3 m_exactPosition;
+    public bool b_canSwipeLeft;
+    public bool b_canSwipeRight;
+    public bool b_canSwipeUp;
+    public bool b_canSwipeDown;
+    public bool b_canSwipeTopRight;
+    public bool b_canSwipeBottomRight;
+    public bool b_canSwipeTopLeft;
+    public bool b_canSwipeBottomLeft;
+    
+    private float direction;
+    private float m_startMoveDistance;
+    
+    private Vector3 dir_sub;
+    private Vector3 m_desiredPosition;
+    private Vector3 m_exactPosition;
 
     private bool m_tap;
     private bool m_swipeLeft;
@@ -31,9 +45,11 @@ public class TouchController : MonoBehaviour
     private Vector2 m_startTouch;
     private Vector2 m_swipeDelta;
 
-    public Vector3 dir_sub;
+    private void Start()
+    {
+        m_startMoveDistance = m_moveDistanceMultiplier;
+    }
 
-    public float direction;
     // Update is called once per frame
     void Update()
     {
@@ -124,16 +140,22 @@ public class TouchController : MonoBehaviour
         switch (m_swipeDelta.magnitude > 125)
         {
             //Detect direction
-
-
             case true:
                 float x = m_swipeDelta.x;
                 float y = m_swipeDelta.y;
-
                 switch (Mathf.Abs(x) > Mathf.Abs(y))
                 {
                     case true:
                         // Left or right swipe
+                        switch (x > 0)
+                        {
+                            case true:
+                                m_swipeRight = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
                         switch (x > 0 && direction > -0.125f && direction < 0.125f)
                         {
                             case true:
@@ -142,6 +164,16 @@ public class TouchController : MonoBehaviour
                             case false:
                                 break;
                         }
+
+                        switch (x < 0)
+                        {
+                            case true:
+                                m_swipeLeft = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
                         switch (x < 0 && direction < -0.875f || direction > 0.875f)
                         {
                             case true:
@@ -150,9 +182,67 @@ public class TouchController : MonoBehaviour
                             case false:
                                 break;
                         }
+
+                        // Top Right
+                        switch (x > 0 && direction > 0.125f && direction < 0.375f)
+                        {
+                            case true:
+                                m_swipeTopRight = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
+                        // Bottom Right
+                        switch (x > 0 && direction < -0.125f && direction > -0.375f)
+                        {
+                            case true:
+                                m_swipeBottomRight = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
+                        // Top Left
+                        switch (x < 0 && direction > 0.625f && direction < 0.875f)
+                        {
+                            case true:
+                                m_swipeTopLeft = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
+                        // Bottom Left
+                        switch (x < 0 && direction < -0.625f && direction > -0.875f)
+                        {
+                            case true:
+                                m_swipeBottomLeft = true;
+                                break;
+                            case false:
+                                break;
+                        }
                         break;
                     case false:
                         // Up or down swipe
+                        switch (y > 0)
+                        {
+                            case true:
+                                m_swipeUp = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
+                        switch (y < 0)
+                        {
+                            case true:
+                                m_swipeDown = true;
+                                break;
+                            case false:
+                                break;
+                        }
+
                         switch (y > 0 && direction > 0.375f && direction < 0.625f)
                         {
                             case true:
@@ -218,86 +308,100 @@ public class TouchController : MonoBehaviour
                 break;
         }
 
-        switch (m_swipeLeft)
+        switch (m_swipeLeft && b_canSwipeLeft)
         {
             case true:
+                m_moveDistanceMultiplier = m_startMoveDistance;
+                m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.left;
+                Reset();
+                break;
+            case false:
+                break;
+        }
+        switch (m_swipeRight && b_canSwipeRight)
+        {
+            case true:
+                m_moveDistanceMultiplier = m_startMoveDistance;
+                m_playerAnimator.SetTrigger("Run");
+                m_desiredPosition += Vector3.right;
+                Reset();
+                break;
+            case false:
+                break;
+        }
+        switch (m_swipeUp && b_canSwipeUp)
+        {
+            case true:
+                m_moveDistanceMultiplier = m_startMoveDistance;
+                m_playerAnimator.SetTrigger("Run");
+                m_desiredPosition += Vector3.forward;
+                Reset();
+                break;
+            case false:
+                break;
+        }
+        switch (m_swipeDown && b_canSwipeDown)
+        {
+            case true:
+                m_desiredPosition += Vector3.back;
                 m_playerAnimator.SetTrigger("Run");
                 Reset();
                 break;
             case false:
                 break;
         }
-        switch (m_swipeRight)
-        {
-            case true:
-                m_desiredPosition += Vector3.right;
-                m_playerAnimator.SetTrigger("Run");
-                break;
-            case false:
-                break;
-        }
-        switch (m_swipeUp)
-        {
-            case true:
-                m_desiredPosition += Vector3.forward;
-                m_playerAnimator.SetTrigger("Run");
-                break;
-            case false:
-                break;
-        }
-        switch (m_swipeDown)
-        {
-            case true:
-                m_desiredPosition += Vector3.back;
-                m_playerAnimator.SetTrigger("Run");
-                break;
-            case false:
-                break;
-        }
 
-        switch (m_swipeTopLeft)
+        switch (m_swipeTopLeft && b_canSwipeTopLeft)
         {
             case true:
+                m_moveDistanceMultiplier = 1f;
+                m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.left;
-                m_playerAnimator.SetTrigger("Run");
+                Reset();
                 break;
             case false:
                 break;
         }
 
-        switch (m_swipeTopRight)
+        switch (m_swipeTopRight && b_canSwipeTopRight)
         {
             case true:
+                m_moveDistanceMultiplier = 1f;
+                m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.right;
-                m_playerAnimator.SetTrigger("Run");
+                Reset();
                 break;
             case false:
                 break;
         }
 
-        switch (m_swipeBottomLeft)
+        switch (m_swipeBottomLeft && b_canSwipeBottomLeft)
         {
             case true:
+                m_moveDistanceMultiplier = 1f;
+                m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.back + Vector3.left;
-                m_playerAnimator.SetTrigger("Run");
+                Reset();
                 break;
             case false:
                 break;
         }
 
-        switch (m_swipeBottomRight)
+        switch (m_swipeBottomRight  && b_canSwipeBottomRight)
         {
             case true:
-                m_desiredPosition += Vector3.back + Vector3.right;
+                m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
+                m_desiredPosition += Vector3.back + Vector3.right;
+                Reset();
                 break;
             case false:
                 break;
         }
 
         m_player.transform.position = Vector3.MoveTowards(m_player.position, m_desiredPosition * m_moveDistanceMultiplier, m_moveSpeed * Time.deltaTime);
-
+        
         m_exactPosition = m_moveDistanceMultiplier * m_desiredPosition;
 
         m_player.LookAt(m_exactPosition);
@@ -308,4 +412,6 @@ public class TouchController : MonoBehaviour
         m_startTouch = m_swipeDelta = Vector2.zero;
         m_isDragging = false;
     }
+
+    // Make it that they only move if permitted to move in swipe direction
 }
