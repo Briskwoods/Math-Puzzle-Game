@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MergeTrigger : MonoBehaviour
 {
+    [SerializeField] private GameManager m_gameManager;
+
     private BoidsController[] AI;
     private AISeparator[] separators;
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,12 +19,20 @@ public class MergeTrigger : MonoBehaviour
                 separators = FindObjectsOfType<AISeparator>();
                 foreach(BoidsController ai in AI)
                 {
-                    foreach (AISeparator sep in separators)
-                    {
-                        sep.m_spaceBetween = 0;
-                    }
                     ai.m_spaceBetween = 0;
-                    ai.Invoke("Merge", 2f);
+                }
+                break;
+            case false:
+                break;
+        }
+
+        switch (other.CompareTag("AI"))
+        {
+            case true:
+                AI = FindObjectsOfType<BoidsController>();
+                foreach (BoidsController ai in AI)
+                {
+                    ai.m_mergeZone = true;
                 }
                 break;
             case false:
