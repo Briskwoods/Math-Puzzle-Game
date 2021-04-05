@@ -9,12 +9,20 @@ public class BoidsController : MonoBehaviour
 
     [SerializeField] private Transform m_leader;
 
+    [SerializeField] private GameManager m_gameManager;
+
+    [SerializeField] private float m_maxSize = 1;
+    [SerializeField] private float m_growthRate = 1.5f;
+
     public float m_spaceBetween =  1.5f;
 
     public bool m_ShouldFollow;
+    public bool m_mergeZone = false;
 
     private bool destroy = false;
-    
+
+
+
     private void Update()
     {
         switch (m_ShouldFollow)
@@ -38,26 +46,18 @@ public class BoidsController : MonoBehaviour
         }
     }
 
-    public void Merge()
+    private void OnCollisionEnter(Collision collision)
     {
-        StartCoroutine(Delay());
-        m_spaceBetween = 0;
-        m_leader.transform.localScale *= 1.5f;
-        switch (destroy)
+        switch(collision.collider.CompareTag("Player") && m_mergeZone)
         {
             case true:
+                m_gameManager.maxSize += m_maxSize;
+                m_gameManager.growFactor = m_growthRate;
+                m_gameManager.Merge();
                 Destroy(gameObject);
                 break;
             case false:
                 break;
         }
-        StopCoroutine(Delay());
-    }
-
-    public IEnumerator Delay()
-    {
-        destroy = true;
-        yield return new WaitForSeconds(3f);
-        destroy = true;
     }
 }
