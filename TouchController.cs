@@ -8,10 +8,13 @@ public class TouchController : MonoBehaviour
 
     [SerializeField] private float m_moveSpeed = 3f;
 
-
     [SerializeField] private Animator m_playerAnimator;
 
     [SerializeField] private Rigidbody m_rigidbody;
+
+    public bool m_movingForward = false;
+
+    public bool m_movingBack = false;
     
     public float m_moveDistanceMultiplier = 3f;
         
@@ -336,6 +339,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = m_startMoveDistance;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward;
+                m_movingForward = true;
+                m_movingBack = false;
                 Reset();
                 break;
             case false:
@@ -346,6 +351,8 @@ public class TouchController : MonoBehaviour
             case true:
                 m_desiredPosition += Vector3.back;
                 m_playerAnimator.SetTrigger("Run");
+                m_movingForward = false;
+                m_movingBack = true;
                 Reset();
                 break;
             case false:
@@ -358,6 +365,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.left;
+                m_movingForward = true;
+                m_movingBack = false;
                 Reset();
                 break;
             case false:
@@ -370,6 +379,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.right;
+                m_movingForward = true;
+                m_movingBack = false; 
                 Reset();
                 break;
             case false:
@@ -382,6 +393,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.back + Vector3.left;
+                m_movingForward = false;
+                m_movingBack = true; 
                 Reset();
                 break;
             case false:
@@ -394,6 +407,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.back + Vector3.right;
+                m_movingForward = false;
+                m_movingBack = true; 
                 Reset();
                 break;
             case false:
