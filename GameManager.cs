@@ -7,13 +7,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform m_player;
 
     [SerializeField] private Animator m_playerAnimator;
-    
+    [SerializeField] private Animator m_bossAnimator;
+
+    [SerializeField] private int m_TargetTotal;
+
+    public int m_currentTotal = 0;
 
     public float maxSize;
     public float growFactor;
     public float waitTime;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,53 @@ public class GameManager : MonoBehaviour
     {
         m_playerAnimator.SetTrigger("Grow");
         StartCoroutine(Scale());
+        Invoke("Delay", 2f);
+    }
+
+    public void Add(int numberToAdd)
+    {
+        m_currentTotal += numberToAdd;
+    }
+
+    public void Subtract(int numberToSubtract)
+    {
+        m_currentTotal -= numberToSubtract;
+    }
+
+
+    private void Win()
+    {
+        m_playerAnimator.SetBool("Fight", false);
+        m_bossAnimator.SetBool("Fight", false);
+
+        m_playerAnimator.SetBool("Win", true);
+        m_bossAnimator.SetBool("Lose", true);
+    }
+
+
+    private void Lose()
+    {
+        m_playerAnimator.SetBool("Fight", false);
+        m_bossAnimator.SetBool("Fight", false);
+
+        m_playerAnimator.SetBool("Lose", true);
+        m_bossAnimator.SetBool("Win", true);
+    }
+
+    public void Fight()
+    {
+        m_playerAnimator.SetBool("Fight", true);
+        m_bossAnimator.SetBool("Fight",true);
+        Invoke("Delay", 2f);
+        switch (m_currentTotal == m_TargetTotal)
+        {
+            case true:
+                Win();
+                break;
+            case false:
+                Lose();
+                break;
+        }
     }
 
     IEnumerator Scale()
@@ -64,6 +113,10 @@ public class GameManager : MonoBehaviour
             timer = 0;
             yield return new WaitForSeconds(waitTime);
         }
+    }
 
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(2f);
     }
 }
