@@ -10,9 +10,13 @@ public class BoidsController : MonoBehaviour
     [SerializeField] private Transform m_leader;
 
     [SerializeField] private GameManager m_gameManager;
+    [SerializeField] private SkinnedMeshRenderer m_ragdoll;
 
     [SerializeField] private float m_maxSize = 1;
     [SerializeField] private float m_growthRate = 1.5f;
+
+    [SerializeField] private Material m_normalColour;
+    [SerializeField] private Material m_followColour;
 
     public float m_spaceBetween =  1.5f;
 
@@ -40,8 +44,10 @@ public class BoidsController : MonoBehaviour
                         m_animator.SetBool("Run", false);
                         break;
                 }
+                m_ragdoll.material = m_followColour;
                 break;
             case false:
+                m_ragdoll.material = m_normalColour;
                 break;
         }
     }
