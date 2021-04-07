@@ -17,8 +17,6 @@ public class MovementTrigger : MonoBehaviour
 
     [SerializeField] private float b_moveDistance;
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         switch(other.CompareTag("Player"))
