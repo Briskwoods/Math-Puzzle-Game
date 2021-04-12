@@ -23,10 +23,6 @@ public class BoidsController : MonoBehaviour
     public bool m_ShouldFollow;
     public bool m_mergeZone = false;
 
-    private bool destroy = false;
-
-
-
     private void Update()
     {
         switch (m_ShouldFollow)
