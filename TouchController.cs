@@ -17,7 +17,9 @@ public class TouchController : MonoBehaviour
     public bool m_movingBack = false;
     
     public float m_moveDistanceMultiplier = 3f;
-        
+
+    #region Public Bools
+
     public bool b_canSwipeLeft;
     public bool b_canSwipeRight;
     public bool b_canSwipeUp;
@@ -26,15 +28,14 @@ public class TouchController : MonoBehaviour
     public bool b_canSwipeBottomRight;
     public bool b_canSwipeTopLeft;
     public bool b_canSwipeBottomLeft;
-    
-    private float direction;
-    private float m_startMoveDistance;
-    
-    private Vector3 dir_sub;
-    private Vector3 m_desiredPosition;
-    private Vector3 m_exactPosition;
+    #endregion
 
+    #region Unused Variable
     private bool m_tap;
+    #endregion
+
+    #region Private Bools
+
     private bool m_swipeLeft;
     private bool m_swipeRight;
     private bool m_swipeUp;
@@ -43,7 +44,14 @@ public class TouchController : MonoBehaviour
     private bool m_swipeBottomRight;
     private bool m_swipeTopLeft;
     private bool m_swipeBottomLeft;
-    private bool m_isDragging; 
+    private bool m_isDragging;
+    #endregion
+
+    private float direction;
+    private float m_startMoveDistance;
+    
+    private Vector3 m_desiredPosition;
+    private Vector3 m_exactPosition;
 
     private Vector2 m_startTouch;
     private Vector2 m_swipeDelta;
@@ -60,8 +68,8 @@ public class TouchController : MonoBehaviour
 
         
         direction = (Mathf.Atan2(m_swipeDelta.y, m_swipeDelta.x) / (Mathf.PI));
-        
-        #region 
+
+        #region PC Controls
         // PC Controls Test Code, uncoomment if you wish to Test with a mouse instead of Unity Remote 5
 
         //switch (Input.GetMouseButtonDown(0))
@@ -86,6 +94,7 @@ public class TouchController : MonoBehaviour
         //}
         #endregion
 
+        #region Mobile Controls
         switch (Input.touches.Length > 0)
         {
             case true:
@@ -112,9 +121,11 @@ public class TouchController : MonoBehaviour
             case false:
                 break;
         }
+        #endregion
 
         // Calculate the distance
         m_swipeDelta = Vector2.zero;
+        
         switch (m_isDragging)
         {
             case true:
@@ -311,6 +322,8 @@ public class TouchController : MonoBehaviour
                 break;
         }
 
+        #region Use Cases
+
         switch (m_swipeLeft && b_canSwipeLeft)
         {
             case true:
@@ -322,6 +335,7 @@ public class TouchController : MonoBehaviour
             case false:
                 break;
         }
+        
         switch (m_swipeRight && b_canSwipeRight)
         {
             case true:
@@ -333,6 +347,7 @@ public class TouchController : MonoBehaviour
             case false:
                 break;
         }
+        
         switch (m_swipeUp && b_canSwipeUp)
         {
             case true:
@@ -346,6 +361,7 @@ public class TouchController : MonoBehaviour
             case false:
                 break;
         }
+
         switch (m_swipeDown && b_canSwipeDown)
         {
             case true:
@@ -415,6 +431,9 @@ public class TouchController : MonoBehaviour
                 break;
         }
 
+        #endregion
+
+
         m_player.transform.position = Vector3.MoveTowards(m_player.position, m_desiredPosition * m_moveDistanceMultiplier, m_moveSpeed * Time.deltaTime);
         
         m_exactPosition = m_moveDistanceMultiplier * m_desiredPosition;
@@ -427,6 +446,4 @@ public class TouchController : MonoBehaviour
         m_startTouch = m_swipeDelta = Vector2.zero;
         m_isDragging = false;
     }
-
-    // Make it that they only move if permitted to move in swipe direction
 }
