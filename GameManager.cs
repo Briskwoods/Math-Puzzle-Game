@@ -1,10 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    
+    [SerializeField] private TextMeshProUGUI m_Score;
+
     [SerializeField] private Transform m_player;
+    [SerializeField] private Transform m_boss;
+    [SerializeField] private Transform m_textPlaceholder;
 
     [SerializeField] private Animator m_playerAnimator;
     [SerializeField] private Animator m_bossAnimator;
@@ -17,6 +24,10 @@ public class GameManager : MonoBehaviour
     public float growFactor;
     public float waitTime;
 
+    private bool isFighting;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +37,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        m_Score.text = m_currentTotal + "";
+        m_Score.transform.position = m_textPlaceholder.position;
     }
 
     public void Merge()
     {
         m_playerAnimator.SetTrigger("Grow");
-        StartCoroutine(Scale());
-        Invoke("Delay", 2f);
+        StartCoroutine(Scale());      
     }
 
     public void Add(int numberToAdd)
@@ -62,24 +73,13 @@ public class GameManager : MonoBehaviour
         m_playerAnimator.SetBool("Fight", false);
         m_bossAnimator.SetBool("Fight", false);
 
-        m_playerAnimator.SetBool("Lose", true);
+        m_playerAnimator.SetTrigger("Lose");
         m_bossAnimator.SetBool("Win", true);
     }
 
-    public void Fight()
+    public void TriggerFight()
     {
-        m_playerAnimator.SetBool("Fight", true);
-        m_bossAnimator.SetBool("Fight",true);
-        Invoke("Delay", 2f);
-        switch (m_currentTotal == m_TargetTotal)
-        {
-            case true:
-                Win();
-                break;
-            case false:
-                Lose();
-                break;
-        }
+        StartCoroutine(Fight());
     }
 
     IEnumerator Scale()
@@ -115,8 +115,65 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator Delay()
+    IEnumerator Fight()
     {
-        yield return new WaitForSeconds(2f);
+        isFighting = true;
+        
+        switch(m_currentTotal >= m_TargetTotal){
+            case true:
+                m_bossAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1.2f);
+                m_playerAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1.2f);
+                m_playerAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1.2f);
+                m_bossAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1f);
+                m_bossAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1.2f);
+                m_playerAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1.2f);
+                m_playerAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1.2f);
+                m_bossAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1.2f);
+                isFighting = false;
+                switch (!isFighting) {
+                    case true:
+                        Win();  
+                        break;
+                    case false:
+                        break;
+                }
+                break;
+            case false:
+                m_playerAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1f);
+                m_bossAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1f);
+                m_bossAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1f);
+                m_playerAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1f);
+                m_playerAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1f);
+                m_bossAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1f);
+                m_bossAnimator.SetTrigger("Fight");
+                yield return new WaitForSeconds(1f);
+                m_playerAnimator.SetTrigger("Hit");
+                yield return new WaitForSeconds(1f); 
+                isFighting = false;
+                switch (!isFighting)
+                {
+                    case true:
+                        Lose();
+                        break;
+                    case false:
+                        break;
+                }
+                break;
+        }
+
     }
 }
