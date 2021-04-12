@@ -22,15 +22,21 @@ public class AISeparator : MonoBehaviour
             switch(ai != gameObject)
             {
                 case true:
-                    float distance = Vector3.Distance(ai.transform.position, this.transform.position);
-                    switch (distance <= m_spaceBetween)
+                    switch (ai != null)
                     {
                         case true:
-                            Vector3 direction = transform.position - ai.transform.position;
-                            transform.localPosition += direction * Time.deltaTime;
+                            float distance = Vector3.Distance(ai.transform.position, this.transform.position);
+                            switch (distance <= m_spaceBetween)
+                            {
+                                case true:
+                                    Vector3 direction = transform.position - ai.transform.position;
+                                    transform.localPosition += direction * Time.deltaTime;
+                                    break;
+                                case false:
+                                    break;
+                            }
                             break;
-                        case false:
-                            break;
+                        case false: break;
                     }
                     break;
                 case false:
