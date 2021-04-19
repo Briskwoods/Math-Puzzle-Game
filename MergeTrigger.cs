@@ -45,7 +45,15 @@ public class MergeTrigger : MonoBehaviour
         {
             case true:
                 AI = FindObjectsOfType<BoidsController>();
-                switch (AI.Length == 0 && !m_bossController.AlreadyCalled)
+
+                int total = 0;
+
+                foreach (BoidsController boid in AI) 
+                {
+                    if (boid.m_ShouldFollow) { total++; }
+                }
+
+                switch (total == 0 && !m_bossController.AlreadyCalled)
                 {
                     case true:
                         m_bossController.TriggerEnemyMoveToPlayer();
