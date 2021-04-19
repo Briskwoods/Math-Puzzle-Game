@@ -13,9 +13,16 @@ public class TouchController : MonoBehaviour
     [SerializeField] private Rigidbody m_rigidbody;
 
     public bool m_movingForward = false;
-
     public bool m_movingBack = false;
+    public bool m_movingRight = false;
+    public bool m_movingLeft = false;
     
+    public bool isCentre = true;
+    public bool isRight = false;
+    public bool isLeft = false;
+    
+
+
     public float m_moveDistanceMultiplier = 3f;
 
     #region Public Bools
@@ -70,28 +77,28 @@ public class TouchController : MonoBehaviour
         direction = (Mathf.Atan2(m_swipeDelta.y, m_swipeDelta.x) / (Mathf.PI));
 
         #region PC Controls
-        // PC Controls Test Code, uncoomment if you wish to Test with a mouse instead of Unity Remote 5
+        //PC Controls Test Code, uncoomment if you wish to Test with a mouse instead of Unity Remote 5
 
-        //switch (Input.GetMouseButtonDown(0))
-        //{
-        //    case true:
-        //        m_isDragging = true;
-        //        m_tap = true;
-        //        m_startTouch = Input.mousePosition;
-        //        break;
-        //    case false:
-        //        break;
-        //}
+        switch (Input.GetMouseButtonDown(0))
+        {
+            case true:
+                m_isDragging = true;
+                m_tap = true;
+                m_startTouch = Input.mousePosition;
+                break;
+            case false:
+                break;
+        }
 
-        //switch (Input.GetMouseButtonUp(0))
-        //{
-        //    case true:
-        //        m_isDragging = false;
-        //        Reset();
-        //        break;
-        //    case false:
-        //        break;
-        //}
+        switch (Input.GetMouseButtonUp(0))
+        {
+            case true:
+                m_isDragging = false;
+                Reset();
+                break;
+            case false:
+                break;
+        }
         #endregion
 
         #region Mobile Controls
@@ -330,6 +337,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = m_startMoveDistance;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.left;
+                m_movingLeft = true;
+                m_movingRight = false;
                 Reset();
                 break;
             case false:
@@ -342,6 +351,8 @@ public class TouchController : MonoBehaviour
                 m_moveDistanceMultiplier = m_startMoveDistance;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.right;
+                m_movingLeft = false;
+                m_movingRight = true;
                 Reset();
                 break;
             case false:
