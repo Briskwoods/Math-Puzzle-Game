@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI m_Score;
 
+    [SerializeField] private MenuController m_menu;
+
     [SerializeField] private Transform m_player;
     [SerializeField] private Transform m_boss;
     [SerializeField] private Transform m_textPlaceholder;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+
     }
 
     // Update is called once per frame
@@ -49,11 +51,13 @@ public class GameManager : MonoBehaviour
 
     public void Add(int numberToAdd)
     {
+        Debug.Log("Called Add");
         m_currentTotal += numberToAdd;
     }
 
     public void Subtract(int numberToSubtract)
     {
+        Debug.Log("Called Subtract");
         m_currentTotal -= numberToSubtract;
     }
 
@@ -65,6 +69,8 @@ public class GameManager : MonoBehaviour
 
         m_playerAnimator.SetBool("Win", true);
         m_bossAnimator.SetBool("Lose", true);
+
+        m_menu.m_winMenu.SetActive(true);
     }
 
 
@@ -75,6 +81,9 @@ public class GameManager : MonoBehaviour
 
         m_playerAnimator.SetTrigger("Lose");
         m_bossAnimator.SetBool("Win", true);
+
+
+        m_menu.m_loseMenu.SetActive(true);
     }
 
     public void TriggerFight()
@@ -119,7 +128,7 @@ public class GameManager : MonoBehaviour
     {
         isFighting = true;
         
-        switch(m_currentTotal >= m_TargetTotal){
+        switch(m_currentTotal == m_TargetTotal){
             case true:
                 m_bossAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1.2f);
