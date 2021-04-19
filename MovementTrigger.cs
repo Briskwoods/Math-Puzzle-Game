@@ -14,6 +14,9 @@ public class MovementTrigger : MonoBehaviour
     [SerializeField] private bool b_canSwipeBottomRight;
     [SerializeField] private bool b_canSwipeTopLeft;
     [SerializeField] private bool b_canSwipeBottomLeft;
+    [SerializeField] private bool b_isRight;
+    [SerializeField] private bool b_isLeft;
+    [SerializeField] private bool b_isCenter;
 
     [SerializeField] private float b_moveDistance;
 
@@ -30,6 +33,9 @@ public class MovementTrigger : MonoBehaviour
                 m_player.b_canSwipeBottomRight = b_canSwipeBottomRight;
                 m_player.b_canSwipeTopLeft = b_canSwipeTopLeft;
                 m_player.b_canSwipeBottomLeft = b_canSwipeBottomLeft;
+                m_player.isRight = b_isRight;
+                m_player.isLeft = b_isLeft;
+                m_player.isCentre = b_isCenter;
 
                 m_player.m_moveDistanceMultiplier = b_moveDistance;
 
