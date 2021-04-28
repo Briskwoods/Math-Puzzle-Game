@@ -20,7 +20,9 @@ public class TouchController : MonoBehaviour
     public bool isCentre = true;
     public bool isRight = false;
     public bool isLeft = false;
-    
+
+    public bool isFromLeft = false;
+    public bool isFromRight = false;
 
 
     public float m_moveDistanceMultiplier = 3f;
@@ -167,16 +169,7 @@ public class TouchController : MonoBehaviour
                 switch (Mathf.Abs(x) > Mathf.Abs(y))
                 {
                     case true:
-                        // Left or right swipe
-                        switch (x > 0)
-                        {
-                            case true:
-                                m_swipeRight = true;
-                                break;
-                            case false:
-                                break;
-                        }
-
+                        // Left Swipe
                         switch (x > 0 && direction > -0.125f && direction < 0.125f)
                         {
                             case true:
@@ -186,15 +179,7 @@ public class TouchController : MonoBehaviour
                                 break;
                         }
 
-                        switch (x < 0)
-                        {
-                            case true:
-                                m_swipeLeft = true;
-                                break;
-                            case false:
-                                break;
-                        }
-
+                        //Right Swipe 
                         switch (x < 0 && direction < -0.875f || direction > 0.875f)
                         {
                             case true:
@@ -245,25 +230,7 @@ public class TouchController : MonoBehaviour
                         }
                         break;
                     case false:
-                        // Up or down swipe
-                        switch (y > 0)
-                        {
-                            case true:
-                                m_swipeUp = true;
-                                break;
-                            case false:
-                                break;
-                        }
-
-                        switch (y < 0)
-                        {
-                            case true:
-                                m_swipeDown = true;
-                                break;
-                            case false:
-                                break;
-                        }
-
+                        // Up
                         switch (y > 0 && direction > 0.375f && direction < 0.625f)
                         {
                             case true:
@@ -273,6 +240,7 @@ public class TouchController : MonoBehaviour
                                 break;
                         }
 
+                        // Down
                         switch (y < 0 && direction < -0.375f && direction > -0.625f)
                         {
                             case true:
@@ -389,7 +357,6 @@ public class TouchController : MonoBehaviour
         switch (m_swipeTopLeft && b_canSwipeTopLeft)
         {
             case true:
-                m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.left;
                 m_movingForward = true;
@@ -403,7 +370,6 @@ public class TouchController : MonoBehaviour
         switch (m_swipeTopRight && b_canSwipeTopRight)
         {
             case true:
-                m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.forward + Vector3.right;
                 m_movingForward = true;
@@ -417,7 +383,6 @@ public class TouchController : MonoBehaviour
         switch (m_swipeBottomLeft && b_canSwipeBottomLeft)
         {
             case true:
-                m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.back + Vector3.left;
                 m_movingForward = false;
@@ -431,7 +396,6 @@ public class TouchController : MonoBehaviour
         switch (m_swipeBottomRight  && b_canSwipeBottomRight)
         {
             case true:
-                m_moveDistanceMultiplier = 1f;
                 m_playerAnimator.SetTrigger("Run");
                 m_desiredPosition += Vector3.back + Vector3.right;
                 m_movingForward = false;
