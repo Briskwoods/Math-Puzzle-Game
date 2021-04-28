@@ -12,8 +12,8 @@ public class MathsTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Called "+other.gameObject.name +" - "+ other.CompareTag("Player"));
 
+        //Debug.Log("Called "+other.gameObject.name +" - "+ other.CompareTag("Player"));
 
         switch (other.CompareTag("Player") && m_player.m_movingForward && !m_player.m_movingLeft && !m_player.m_movingRight)
         {
@@ -23,8 +23,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
 
         switch (other.CompareTag("Player") && m_player.m_movingBack && !m_player.m_movingLeft && !m_player.m_movingRight)
@@ -35,8 +33,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
 
         switch (other.CompareTag("Player") && m_player.isCentre && m_player.m_movingRight && !m_player.m_movingBack && !m_player.m_movingForward)
@@ -47,8 +43,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
 
         switch (other.CompareTag("Player") && m_player.isCentre && m_player.m_movingLeft && !m_player.m_movingBack && !m_player.m_movingForward)
@@ -59,8 +53,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
 
         switch (other.CompareTag("Player") && m_player.isLeft && m_player.m_movingRight)
@@ -71,8 +63,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
 
         switch (other.CompareTag("Player") && m_player.isRight && m_player.m_movingLeft)
@@ -83,8 +73,6 @@ public class MathsTrigger : MonoBehaviour
                 break;
             case false:
                 break;
-
-                return;
         }
     }
 }
