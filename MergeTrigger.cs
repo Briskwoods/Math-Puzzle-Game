@@ -9,7 +9,7 @@ public class MergeTrigger : MonoBehaviour
     [SerializeField] private BossController m_bossController;
 
     private BoidsController[] AI;
-    
+
     private void OnTriggerEnter(Collider other)
     {
         switch (other.CompareTag("Player"))
