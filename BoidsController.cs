@@ -23,6 +23,16 @@ public class BoidsController : MonoBehaviour
     public bool m_ShouldFollow;
     public bool m_mergeZone = false;
 
+    private Vector3 m_startPosition;
+    private GameObject boid;
+
+
+    private void Start()
+    {
+        m_startPosition = gameObject.transform.position;
+        boid = gameObject;
+    }
+
     private void Update()
     {
         switch (m_ShouldFollow)
@@ -44,6 +54,7 @@ public class BoidsController : MonoBehaviour
                 break;
             case false:
                 m_ragdoll.material = m_normalColour;
+                boid.transform.position = m_startPosition; 
                 break;
         }
     }
