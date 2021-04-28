@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Transform m_player;
     [SerializeField] private Transform m_boss;
-    [SerializeField] private Transform m_textPlaceholder;
-
+    
     [SerializeField] private Animator m_playerAnimator;
     [SerializeField] private Animator m_bossAnimator;
 
@@ -40,7 +39,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         m_Score.text = m_currentTotal + "";
-        m_Score.transform.position = m_textPlaceholder.position;
     }
 
     public void Merge()
@@ -51,13 +49,13 @@ public class GameManager : MonoBehaviour
 
     public void Add(int numberToAdd)
     {
-        Debug.Log("Called Add");
+        //Debug.Log("Called Add");
         m_currentTotal += numberToAdd;
     }
 
     public void Subtract(int numberToSubtract)
     {
-        Debug.Log("Called Subtract");
+        //Debug.Log("Called Subtract");
         m_currentTotal -= numberToSubtract;
     }
 
@@ -121,6 +119,8 @@ public class GameManager : MonoBehaviour
 
             timer = 0;
             yield return new WaitForSeconds(waitTime);
+            //m_player.transform.LookAt(m_boss.position);
+            //m_boss.transform.LookAt(m_player.position);
         }
     }
 
@@ -130,22 +130,40 @@ public class GameManager : MonoBehaviour
         
         switch(m_currentTotal == m_TargetTotal){
             case true:
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1.2f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 isFighting = false;
                 switch (!isFighting) {
                     case true:
@@ -156,22 +174,40 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case false:
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Hit");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_bossAnimator.SetTrigger("Fight");
                 yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 m_playerAnimator.SetTrigger("Hit");
-                yield return new WaitForSeconds(1f); 
+                yield return new WaitForSeconds(1f);
+                m_player.transform.LookAt(m_boss.position);
+                m_boss.transform.LookAt(m_player.position);
                 isFighting = false;
                 switch (!isFighting)
                 {
