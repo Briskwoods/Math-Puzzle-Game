@@ -64,4 +64,12 @@ public class MenuController : MonoBehaviour
         m_mainMenu.SetActive(true);
         Time.timeScale = 0f;
     }
+
+    public void Loop()
+    {
+        SceneManager.LoadScene(1);
+        m_winMenu.SetActive(false);
+        m_mainMenu.SetActive(false);
+        Time.timeScale = 1f;
+    }
 }
